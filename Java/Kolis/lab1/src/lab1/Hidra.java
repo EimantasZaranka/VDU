@@ -9,6 +9,7 @@ class Hidra extends Monster{
 	int landedAttacks;
 	int attackRange;
 	int timeAttacked;
+	int bonus;
 	
 	Hidra(String id, int level, int baseHealth, int baseDmg, int attackRange,
 		  int timesAttacked) 
@@ -20,10 +21,12 @@ class Hidra extends Monster{
 		this.attackRange = attackRange;
 		this.timeAttacked = rnd.nextInt(timesAttacked);
 		this.landedAttacks = rnd.nextInt(timeAttacked+1);
+		this.bonus = rnd.nextInt(3);
 	}
 
 	int attackDistance() {
-		return Math.round(landedAttacks*distanceMultiplier)+attackRange;
+		Random rnd = new Random();
+		return Math.round(landedAttacks*distanceMultiplier)+attackRange+bonus;
 	}
 	
 	float currentDmg() {
@@ -40,7 +43,7 @@ class Hidra extends Monster{
 	void printInfo() {
 		System.out.println(
 				"Hidra " + id + ", attack distance " + attackDistance() + 
-				", current Dmg " + currentDmg()
+				", current Dmg " + calc_dmg()
 		);
 	}
 }

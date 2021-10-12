@@ -15,17 +15,17 @@ public class Lab1Home {
 		game.printTeams(null);
 		System.out.println();
 		
-		System.out.println("Teams sorted by Damage Done");
+		System.out.println("Teams sorted by Max Damage Done");
 		game.sortTeamsByDmg();
 		//game.printTeams();
 		System.out.println();
 		
-		System.out.println("Teams sorted by Skillfulness");
+		System.out.println("Teams sorted by Max Skillfulness");
 		game.sortTeamsBySkillfulness();
 		//game.printTeams();
 		System.out.println();
 		
-		System.out.println("Teams sorted by Combined Range");
+		System.out.println("Teams sorted by Max Range");
 		game.sortTeamsByRange();
 		//game.printTeams();
 		System.out.println();

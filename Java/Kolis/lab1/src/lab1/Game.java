@@ -15,13 +15,13 @@ class Game extends HashSet<Team> {
 	}
 	
 	void sortTeamsByDmg() {
-		TreeSet<Team> teams = new TreeSet<Team>(new TeamDmg());
+		TreeSet<Team> teams = new TreeSet<Team>(new MaxDmg());
 		teams.addAll(this);
 		printTeams(teams);
 	}
 	
 	void sortTeamsBySkillfulness() {
-		TreeSet<Team> teams = new TreeSet<Team>(new TeamSkillfulness());
+		TreeSet<Team> teams = new TreeSet<Team>(new MaxSkillfulness());
 		teams.addAll(this);
 		printTeams(teams);
 		//this.stream().sorted(new TeamSkillfulness());
@@ -29,7 +29,7 @@ class Game extends HashSet<Team> {
 	}
 	
 	void sortTeamsByRange() {
-		TreeSet<Team> teams = new TreeSet<Team>(new TeamRange());
+		TreeSet<Team> teams = new TreeSet<Team>(new MaxRange());
 		teams.addAll(this);
 		printTeams(teams);
 		//this.stream().sorted(new TeamRange());
@@ -46,9 +46,9 @@ class Game extends HashSet<Team> {
 		while(iter.hasNext()) {
 			Team team = iter.next();
 			System.out.println("Team # " + team.getName());
-			System.out.println("Team Dmg: " + team.monsters.evaluateDamageDelt());
-			System.out.println("Team Range: " + team.monsters.evaluateAttackRange());
-			System.out.println("Team Skillfulness" + team.monsters.evaluateAttackSkillfulness());
+			System.out.println("Team Max Dmg: " + team.monsters.evaluateByMaxDmg());
+			System.out.println("Team Max Range: " + team.monsters.evaluateByMaxDistance());
+			System.out.println("Team Max Skillfulness" + team.monsters.evaluateByMaxSkillfullness());
 			
 			team.monsters.printMonsters();
 			System.out.println();

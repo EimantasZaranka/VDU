@@ -7,6 +7,7 @@ class Goblin extends Monster{
 	float autoAttackMultiplier;
 	int timesAttacked;
 	int timesDmgDelt;
+	float randommult;
 	
 	Goblin(String id, int level, int baseHealth,
 			int baseDmg, int timesAttacked)
@@ -22,10 +23,12 @@ class Goblin extends Monster{
 		
 		this.timesAttacked = timesAttacked;
 		this.timesDmgDelt = rnd.nextInt(this.timesAttacked);
+		this.randommult = 1+ rnd.nextFloat()*(2-1);
 	}
 	
 	float attackSkillfulness() {
-		return timesAttacked*expGained;
+		Random rnd = new Random();
+		return timesAttacked*expGained*randommult;
 	}
 	
 	float currentDmg() {
@@ -42,7 +45,7 @@ class Goblin extends Monster{
 	void printInfo() {
 		System.out.println(
 				"Goblin " + id + ", skillfulness " + attackSkillfulness() +
-				", current Dmg " + currentDmg()
+				", current Dmg " + calc_dmg()
 		);
 	}
 

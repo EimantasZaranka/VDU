@@ -62,6 +62,49 @@ class Monsters extends HashSet<Monster>{
 		return value;
 	}
 	
+	int evaluateByMaxDmg() {
+		int maxDmg = 0;
+		
+		Iterator<Monster> iter = iterator();
+		while(iter.hasNext()) {
+			Monster m = iter.next();
+			if(m.calc_dmg() >= maxDmg) 
+				maxDmg=m.calc_dmg();
+		}
+		
+		return maxDmg;
+	}
+	
+	int evaluateByMaxDistance() {
+		int maxDist = 0;
+		Iterator<Monster> iter = iterator();
+		while(iter.hasNext()) {
+			Monster m = iter.next();
+			if(m instanceof Hidra) {
+				if(((Hidra) m).attackDistance() >= maxDist)
+					maxDist = ((Hidra) m).attackDistance();
+			}
+			
+		}
+		
+		return maxDist;
+	}
+	
+	float evaluateByMaxSkillfullness() {
+		float maxSkillfullness = 0;
+		
+		Iterator<Monster> iter = iterator();
+		while(iter.hasNext()) {
+			Monster m = iter.next();
+			if(m instanceof Goblin) {
+				if(((Goblin) m).attackSkillfulness() >= maxSkillfullness)
+					maxSkillfullness = ((Goblin) m).attackSkillfulness();
+			}
+		}
+		
+		return maxSkillfullness;
+	}
+	
 	void printMonsters() {
 		//Monster monster;
 		Iterator<Monster> iter = iterator();

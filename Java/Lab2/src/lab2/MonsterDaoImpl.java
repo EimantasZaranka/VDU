@@ -124,9 +124,9 @@ public class MonsterDaoImpl implements MonsterDao{
 		Connection conn = DB.getConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(
-					"UPDATE monsters " +
-					"SET name=?, level=?, health=?, damage=?, range=?" +
-					"WHERE id=?"
+					"UPDATE `java`.`monsters` " +
+					"SET `name`=?, `level`=?, `health`=?, `damage`=?, `range`=? " +
+					"WHERE `idMonsters`=?"
 			);
 			
 			ps.setString(1, monster.getName());

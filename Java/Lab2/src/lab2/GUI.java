@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-//import javax.swing.event.*;
+import javax.swing.event.*;
 
 public class GUI extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -31,6 +31,10 @@ public class GUI extends JFrame{
 
 		setLayout(new GridBagLayout());	
 		c = new GridBagConstraints();
+		String[] columnNames = {"ID", "Name", "Level","Health", "Damage", "Range"};
+		tableModel = new DefaultTableModel(columnNames, 0);
+		table = new JTable(tableModel);	
+		
 		c.insets = new Insets(5,5,5,5);
 		c.weightx = 1;
 		c.weighty = 1;
@@ -94,28 +98,56 @@ public class GUI extends JFrame{
 	}
 	
 	private void tableRow() {
-		
-		String[] columnNames = {"ID", "Name", "Level","Health", "Damage", "Range"};
-		
-		
-		tableModel = new DefaultTableModel(columnNames, 0);
-				
 		innitFill();
-		
-		table = new JTable(tableModel);
-		
+
 		TableColumnModel tcm = table.getColumnModel();
 		tcm.removeColumn(tcm.getColumn(0));
 		
-		
-		
+				
 		JScrollPane sp = new JScrollPane(table);
+		
+				
 		c.gridx = 0;
 		c.gridwidth = 9;
 		c.gridy = 1;
 		
 		
 		add(sp, c);
+		
+		table.getModel().addTableModelListener(new TableModelListener() {
+			public void tableChanged(TableModelEvent  e) {
+				
+				if (TableModelEvent.UPDATE == e.getType()) {
+					int editedRow = e.getFirstRow();				
+					Monster m = new Monster();			
+					
+					m.setID(Integer.parseInt(
+							table.getModel().getValueAt(editedRow, 0).toString())
+					);
+					
+					m.setName(table.getModel().getValueAt(editedRow, 1).toString());
+					
+					m.setLevel(Integer.parseInt(
+							table.getModel().getValueAt(editedRow, 2).toString())
+					);
+					
+					m.setHealth(Integer.parseInt(
+							table.getModel().getValueAt(editedRow, 3).toString())
+					);
+					
+					m.setDamage(Integer.parseInt(
+							table.getModel().getValueAt(editedRow, 4).toString())
+					);
+					
+					m.setRange(Integer.parseInt(
+							table.getModel().getValueAt(editedRow, 5).toString())	
+					);
+					
+					mdi.updateMonster(m);
+				
+				}
+			}
+		});
 
 	}
 	
@@ -269,7 +301,7 @@ public class GUI extends JFrame{
 	}
 	
 	private void clearTable() {
-		int rowCount = tableModel.getRowCount();
+		int rowCount = table.getModel().getRowCount();
 		
 		for (int i = rowCount - 1; i >= 0; i--) {
 			tableModel.removeRow(i);

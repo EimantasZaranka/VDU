@@ -66,19 +66,23 @@ public class MonsterDaoImpl implements MonsterDao{
 	}
 
 	
-	public Monster getMonsterByName(String name) {
+	public ArrayList<Monster> getMonsterByName(String name) {
 		Connection conn = DB.getConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(
-					"SELECT * FROM monsters WHERE name=?"
+					"SELECT * FROM monsters WHERE LOWER(name) LIKE LOWER(?)"
 			);
 			
-			ps.setString(1, name);
+			ps.setString(1, "%"+name+"%");
 			ResultSet rs = ps.executeQuery();
 			
-			if(rs.next()) {
-				return extractMonster(rs);
+			ArrayList<Monster> monsterLike = new ArrayList<Monster>();
+			
+			while(rs.next()) {
+				monsterLike.add(extractMonster(rs));
 			}
+			
+			return monsterLike;
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -86,13 +90,14 @@ public class MonsterDaoImpl implements MonsterDao{
 	}
 
 	@Override
-	public boolean insertMonster(Monster monster) {
+	public int insertMonster(Monster monster) {
 		Connection conn = DB.getConnection();
+		String key[] = {"idMonsters"};
 		try {
 			PreparedStatement ps = conn.prepareStatement(
-					"INSERT INTO "+
-					"monsters ('name', 'level', 'health','damage','range')" +
-					"VALUES (?,?,?,?,?)"
+					"INSERT INTO `java`.`monsters`"
+					+ "(`name`, `level`, `health`, `damage`, `range`) "+
+					"VALUES(?,?,?,?,?);", key
 			);
 			
 			ps.setString(1, monster.getName());
@@ -101,15 +106,17 @@ public class MonsterDaoImpl implements MonsterDao{
 			ps.setInt(4, monster.getDamage());
 			ps.setInt(5, monster.getRange());
 			
-			int i = ps.executeUpdate();
+			ps.executeUpdate();
 			
-			if(i==1) {
-				return true;
+			ResultSet rs = ps.getGeneratedKeys();
+			
+			if (rs.next()) {
+			    return rs.getInt(1);
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return 0;
 	}
 
 	@Override
